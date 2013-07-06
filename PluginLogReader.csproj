@@ -83,7 +83,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="PluginLogReader.cs" />
-    <Compile Include="$(SolutionDir)..\API\RainmeterAPI.cs" />
+    <Compile Include="$(SolutionDir)\RainMeterAPI\RainmeterAPI.cs" />
     <Compile Include="RainmeterPlugin.cs" />
     <Compile Include="Tools\ReadReversly.cs" />
     <Compile Include="Tools\TextTools.cs" />
@@ -97,6 +97,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)..\API\DllExporter.exe" "$(ConfigurationName)" "$(PlatformName)" "$(TargetDir)\" "$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)\RainMeterAPI\DllExporter.exe" "$(ConfigurationName)" "$(PlatformName)" "$(TargetDir)\" "$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
