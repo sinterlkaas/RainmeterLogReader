@@ -26,16 +26,19 @@ namespace PluginLogReader
         public bool FileChanged { 
             get
             {
-                return !_fswValid || _fileChanged;
+                return (!_fswValid || _fileChanged);
             }
         }
+        private StringBuilder _content;
+        public bool IsValid;
+
+        // Settings
         public string Path;
         public double Lines;
         public int LineLength;
         public bool StripIrcCoding;
-        public bool IsValid;
-
-        private StringBuilder _content;
+        public bool UseFileSystemWatcher;
+        
 
         #region Initialize
         /// <summary>
@@ -72,27 +75,39 @@ namespace PluginLogReader
                 }
                 Path = path;
 
-                // Initialize FileSystemWatcher
-                var directory = System.IO.Path.GetDirectoryName(path);
-                var filename = System.IO.Path.GetFileName(path);
-                if (directory == null || filename == null)
-                    _fswValid = false;
-                else
-                {
-                    Watcher = new FileSystemWatcher(directory, filename);
-                    Watcher.Changed += WatcherChanged;
-                    _fileChanged = true;
-                    Log(msg:"Using FileSystemWatcher");
-                }
-
+                // Read Settings
+                var useFsw = api.ReadString("UseFileSystemWatcher", "true").ToLower();
+                UseFileSystemWatcher = useFsw.Equals("true");
                 var strip = api.ReadString("StripIrcCoding", "false").ToLower();
                 StripIrcCoding = strip.Equals("true");
-
                 var lines = api.ReadDouble("Lines", 15);
                 Lines = lines;
-
                 var longLines = api.ReadInt("MaxLineLength", 100);
                 LineLength = longLines;
+
+                if (UseFileSystemWatcher)
+                {
+                    // Initialize FileSystemWatcher
+                    var directory = System.IO.Path.GetDirectoryName(path);
+                    var filename = System.IO.Path.GetFileName(path);
+                    if (directory == null || filename == null)
+                    {
+                        Log(API.LogType.Error, "Failed to Initialize FileSystemWatcher");
+                        _fswValid = false;
+                    }
+                    else
+                    {
+                        Watcher = new FileSystemWatcher(directory, filename);
+                        Watcher.Changed += WatcherChanged;
+                        _fileChanged = true;
+                        Log(msg: string.Format("Using FileSystemWatcher dir:{0} filter:{1}", directory, filename));
+                    }
+                }
+                else
+                {
+                    Log(msg:"FileSystemWatcher Disabled");
+                    _fswValid = false;
+                }
 
                 var type = api.ReadString("Type", "").ToLower();
                 switch (type)
