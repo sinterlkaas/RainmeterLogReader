@@ -6,6 +6,10 @@ using System.Text.RegularExpressions;
 using Rainmeter;
 using PluginLogReader.Tools;
 
+/*
+[Rainmeter]author=sinterlkaasupdate=1000 		; in milisecondsbackgroundmode=1[Metadata]name=LogReaderversion=0.0.1[Variables]font_name=Trebuchet MSfont_size=9; Colorsfont_color=128,128,128,255color_graph_bg=0,0,0,0color_hline=0,0,0transparant=0,0,0,0[mXchat]Measure=PluginPlugin=Plugins\LogReader.dllType=XchatLines=20StripIrcCoding=truePath=C:\HexChat\scrollback\Network\#channel.txt[MeterDisplay]Meter=STRINGMeasureName=mXchatFontFace=#font_name#FontSize=#font_size#FontColor=#font_color#AntiAlias=1Text="%1"
+ */
+
 namespace PluginLogReader
 {
     internal class Measure
