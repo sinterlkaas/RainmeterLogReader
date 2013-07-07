@@ -3,11 +3,11 @@ RainmeterLogReader
 
 Read Logs
 
-Supports:
+**Supports:**
 
 1. XChat
 2. Plain Text
 
-Features:
+**Features:**
 
-Strip IRC Color Coding
+* Strip IRC Color Coding
